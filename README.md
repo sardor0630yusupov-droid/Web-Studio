@@ -1,23 +1,20 @@
-# Web Studio
+# Web Studio - Professional Web Design & Development
 
-## Project Description
-Web Studio is a modern web development project that provides users with tools and resources to create responsive and dynamic websites efficiently.
+🌐 **Web Studio** - Tashkent shahrida eng sifatli veb-saytlar va ilovalar ishlab chiquvchi kompaniya.
 
-## Features
-- Responsive design
-- User-friendly interface
-- Built-in templates
-- Easy deployment to cloud platforms
-- Support for various CMS integrations
+## 📋 Loyiha Haqida
 
-## Railway Deployment Instructions
-1. Sign up for a Railway account at [Railway](https://railway.app).
-2. Create a new project and link your GitHub repository.
-3. Configure environment variables if needed.
-4. Click on the "Deploy" button to start the deployment process.
-5. Access your application using the provided Railway URL.
+Bu loyiha Web Studio kompaniyasining rasmiy veb-saytdir. Bunda:
+- Kompaniya haqida ma'lumot
+- Taqdim etilayotgan xizmatlar
+- Yakunlangan loyihalar (Portfolio)
+- Kontakt ma'lumotlar
 
-## Setup Guide
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/sardor0630yusupov-droid/web-studio.git
+## 🚀 Texnologiyalar
+
+- **HTML5** - Mazmun tuzilishi
+- **CSS3** - Shakl va dizayn
+- **JavaScript** - Dinamik funksiyalar
+- **Responsive Design** - Barcha qurilmalarda yaxshi ko'rinish
+
+## 📁 Fayllar Tuzilishi
