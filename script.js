@@ -1,99 +1,69 @@
-// script.js
-
-const token = '8296204957:AAHo2pSYYwpzAfmDz_mxdI-fE_m9Fev7TqE';
-const chatId = '-1003852154101';
-
-// Function to send message
-function sendMessage(message) {
-    const url = `https://api.telegram.org/bot${token}/sendMessage`;
-    const data = {
-        chat_id: chatId,
-        text: message,
-    };
-
-    fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-    })
-    .then(response => response.json())
-    .then(data => console.log('Message sent:', data))
-    .catch(error => console.error('Error:', error));
-}
-
-// Smooth animations
-const form = document.getElementById('contact-form');
-form.addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent default form submission
-
-    const formData = new FormData(form);
-    const message = `Name: ${formData.get('name')} \nMessage: ${formData.get('message')}`;
-
-    sendMessage(message);
-
-    // Smooth animation for the form
-    form.style.transition = 'opacity 0.5s ease';
-    form.style.opacity = '0';
-
-    setTimeout(() => {
-        form.reset();
-        form.style.opacity = '1';
-    }, 500);
-});
-// Smooth scrolling
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
-        }
-    });
+// Formani yuborish hodisasini ushlash
+document.addEventListener('DOMContentLoaded', () => {
+    const contactForm = document.getElementById('contactForm');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', sendToTelegram);
+    }
 });
 
-// Form validation
-function validateForm(event) {
+// Telegram Bot Function
+function sendToTelegram(event) {
     event.preventDefault();
     
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
     const message = document.getElementById('message').value.trim();
+    const submitBtn = event.target.querySelector('button[type="submit"]');
     
-    if (!name || !email || !message) {
+    if (!name || !email || !phone || !message) {
         alert('Iltimos, barcha maydonlarni to\'ldiring!');
-        return false;
+        return;
     }
     
-    if (!email.includes('@')) {
-        alert('To\'g\'ri email kiriting!');
-        return false;
-    }
+    // Tugmani yuklanish holatiga o'tkazish
+    const originalBtnText = submitBtn.innerHTML;
+    submitBtn.innerHTML = 'Jo\'natilmoqda... <i class="fas fa-spinner fa-spin"></i>';
+    submitBtn.disabled = true;
     
-    alert('Rahmat! Tez orada siz bilan bog\'lanamiz.');
-    return false;
-}
-
-// Navbar scroll effect
-window.addEventListener('scroll', function() {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 50) {
-        navbar.style.background = 'rgba(0, 0, 0, 0.95)';
-    } else {
-        navbar.style.background = 'rgba(0, 0, 0, 0.8)';
-    }
-});
-
-// Counter animation
-function animateCounter(element, target) {
-    let current = 0;
-    const increment = target / 50;
-    const timer = setInterval(() => {
-        current += increment;
-        if (current >= target) {
-            element.textContent = target;
-            clearInterval(timer);
+    // Telegram Bot Token va Chat ID
+    const BOT_TOKEN = "8296204957:AAHo2pSYywpZAfmDz_mxd1-fE_m9Fev7TqE"; 
+    const CHAT_ID = "-1003852154101";
+    
+    const text = `📨 <b>YANGI ZAKAZ! (Web Studio)</b>\n\n👤 <b>Ism:</b> ${name}\n📧 <b>Email:</b> ${email}\n📞 <b>Telefon:</b> ${phone}\n\n💬 <b>Xabar:</b>\n${message}`;
+    
+    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+    
+    // Telegramga so'rov yuborish
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: text,
+            parse_mode: 'HTML'
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.ok) {
+            alert('✅ Xabaringiz muvaffaqiyatli jo\'natildi! Tez orada siz bilan bog\'lanamiz.');
+            event.target.reset(); // Formani tozalash
         } else {
-            element.textContent = Math.floor(current);
+            alert('❌ Xatolik yuz berdi. Iltimos keyinroq qayta urinib ko\'ring.');
+            console.error(data);
         }
-    }, 50);
+    })
+    .catch(error => {
+        alert('❌ Tarmoq xatoligi yuz berdi!');
+        console.error('Error:', error);
+    })
+    .finally(() => {
+        // Tugmani asl holatiga qaytarish
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+    });
 }
